@@ -9,9 +9,11 @@
  */
 angular.module('prmWebApp')
   .controller('JobsCtrl', function ($scope, Job, JobStatus) {
-    Job.query(function(data) {
-      $scope.jobs = data;
-    });
+    $scope.refresh = function(){
+      Job.query(function(data) {
+        $scope.jobs = data;
+      });
+    }
     JobStatus.query(function(data){
       $scope.statuses = {};
       data.forEach(function(status){
@@ -27,6 +29,7 @@ angular.module('prmWebApp')
         //job created
         $scope.newjob.name = 'Add a Job';
         $scope.newjob = new Job();
+        $scope.refresh();
       });
     }
   });
