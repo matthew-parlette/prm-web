@@ -14,6 +14,7 @@ angular.module('prmWebApp')
         $scope.jobs = data;
       });
     }
+
     JobStatus.query(function(data){
       $scope.statuses = {};
       data.forEach(function(status){
@@ -31,5 +32,13 @@ angular.module('prmWebApp')
         $scope.newjob = new Job();
         $scope.refresh();
       });
-    }
+    };
+
+    $scope.updateJobName = function(job, name){
+      console.log(job);
+      Job.update(job, function(success){/* success */}, function(error){
+        console.log(error);
+        $scope.refresh();
+      });
+    };
   });

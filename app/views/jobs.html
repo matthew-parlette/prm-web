@@ -7,5 +7,9 @@
 </form>
 
 <ul class="list-group">
-  <li class="list-group-item" ng-repeat="job in jobs">{{ job.name }}<span class="badge">{{ statuses[job.status_id] }}</span></li>
+  <div class="popover-wrapper">
+    <li class="list-group-item" editable-text="job.name" ng-repeat="job in jobs" onaftersave="updateJobName(job, $data)">
+      {{ job.name }}<span class="badge">{{ statuses[job.status_id] }}</span>
+    </li>
+  </div>
 </ul>

@@ -9,5 +9,7 @@
  */
 angular.module('prmWebApp')
   .factory('Job', function ($resource) {
-    return $resource("http://localhost:3000/jobs/:id");
+    return $resource("http://localhost:3000/jobs/:id", {id: '@id'}, {
+      'update': { method:'PUT' }
+    });
   });
