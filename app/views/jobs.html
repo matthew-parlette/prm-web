@@ -7,5 +7,5 @@
 </form>
 
 <ul class="list-group">
-  <li class="list-group-item" ng-repeat="job in jobs">{{ job.name }}<span class="badge">{{ job.status_id }}</span></li>
+  <li class="list-group-item" ng-repeat="job in jobs">{{ job.name }}<span class="badge">{{ statuses[job.status_id] }}</span></li>
 </ul>
