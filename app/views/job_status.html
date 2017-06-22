@@ -3,7 +3,7 @@
     <i class="glyphicon glyphicon-{{ status_dict[job.status_id].icon }}"></i>
   </span>
   <div class="job-status-options" ng-show="options">
-    <div class="btn-group btn-group-xs" role="group" aria-label="job-status">
+    <div class="btn-group btn-group-xs" role="group" aria-label="job-status" style="position: absolute;margin-left: -4em;">
       <button ng-repeat="status in statuses | orderBy:id" type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="{{ status.name }}" ng-click="updateJobStatus(job, status)"><i class="glyphicon glyphicon-{{ status.icon }}"></i></button>
     </div>
   </div>

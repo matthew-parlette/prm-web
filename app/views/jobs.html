@@ -9,12 +9,29 @@
 <hr>
 
 <table class="table table-hover">
+  <tr>
+    <th class="">Job</th>
+    <th class="text-center">Status</th>
+    <th class="text-center">Weight</th>
+  </tr>
   <tr ng-repeat="job in jobs">
     <td class="" editable-text="job.name" onaftersave="updateJobName(job, $data)">
       {{ job.name }}
     </td>
-    <td>
-      <job-status class="pull-right"></job-status>
+    <td class="text-center">
+      <job-status class=""></job-status>
+    </td>
+    <td class="text-center">
+      <div class="job-status" ng-mouseenter="showWeights=true" ng-mouseleave="showWeights=false">
+        <span ng-hide="showWeights">
+          {{ job.weight || 0 }}
+        </span>
+        <div class="" ng-show="showWeights">
+          <div class="btn-group btn-group-xs" role="group" aria-label="job-weight" style="position: absolute;margin-left: -2.5em;">
+            <button ng-repeat="weight in weights" type="button" class="btn btn-default" ng-click="job.weight = weight;updateJob(job);">{{ weight }}</button>
+          </div>
+        </div>
+      </div>
     </td>
   </tr>
 </table>

@@ -12,6 +12,7 @@ angular.module('prmWebApp')
     $scope.refresh = function(){
       Job.query(function(data) {
         $scope.jobs = data;
+        console.log($scope.jobs);
       });
     }
 
@@ -70,6 +71,13 @@ angular.module('prmWebApp')
       });
     };
 
+    $scope.updateJob = function(job){
+      Job.update(job, function(success){/* success */}, function(error){
+        console.log(error);
+        $scope.refresh();
+      });
+    };
+
     $scope.updateJobName = function(job, name){
       Job.update(job, function(success){/* success */}, function(error){
         console.log(error);
@@ -84,6 +92,8 @@ angular.module('prmWebApp')
         $scope.refresh();
       });
     };
+
+    $scope.weights = [0, 1, 2, 3];
 
     $scope.refresh();
   });
