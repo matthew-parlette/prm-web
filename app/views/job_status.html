@@ -1,6 +1,6 @@
 <div class="job-status" ng-mouseenter="options=true" ng-mouseleave="options=false">
-  <span class="badge" ng-hide="options">
-    {{ status_dict[job.status_id] }}
+  <span ng-hide="options">
+    <i class="glyphicon glyphicon-{{ status_dict[job.status_id].icon }}"></i>
   </span>
   <div class="job-status-options" ng-show="options">
     <div class="btn-group btn-group-xs" role="group" aria-label="job-status">

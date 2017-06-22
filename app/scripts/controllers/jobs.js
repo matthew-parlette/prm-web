@@ -43,7 +43,7 @@ angular.module('prmWebApp')
       // Still need status_dict for job_status view
       $scope.status_dict = {};
       data.forEach(function(status){
-        $scope.status_dict[status.id] = status.name;
+        $scope.status_dict[status.id] = status;
       });
     })
 
@@ -77,8 +77,6 @@ angular.module('prmWebApp')
 
     $scope.updateJobStatus = function(job, status){
       job.status_id = status.id;
-      console.log(job);
-      console.log(status);
       Job.update(job, function(success){/* success */}, function(error){
         console.log(error);
         $scope.refresh();
