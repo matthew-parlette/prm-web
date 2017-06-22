@@ -1,16 +1,12 @@
 <div class="row">
   <div class="col-md-2"></div>
   <div class="col-md-8">
-    <form class="form-inline" ng-submit="addJob()" ng-init="refresh()">
-      <div class="form-group">
-        <!-- <label for="new_job">Name</label> -->
-        <input type="text" class="form-control" id="new_job" placeholder="Add a Job" ng-model="newjob.name">
-      </div>
-      <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
-    </form>
+    <input type="text" class="form-control" id="new_job" placeholder="Add a Job" ng-model="job.name" on-enter="addJob()">
   </div>
   <div class="col-md-2"></div>
 </div>
+
+<hr>
 
 <table class="table table-hover">
   <tr ng-repeat="job in jobs">

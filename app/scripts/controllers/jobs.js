@@ -56,14 +56,16 @@ angular.module('prmWebApp')
       });
     };
 
-    $scope.newjob = new Job();
+    $scope.job = new Job();
+    $scope.job.status_id = 1;
 
     $scope.addJob = function(){
-      $scope.newjob.status_id = 1;
-      $scope.newjob.$save(function() {
+      $scope.job.status_id = 1;
+      $scope.job.$save(function() {
         //job created
-        $scope.newjob.name = 'Add a Job';
-        $scope.newjob = new Job();
+        $scope.job.name = 'Add a Job';
+        $scope.job = new Job();
+        $scope.job.status_id = 1;
         $scope.refresh();
       });
     };
@@ -82,4 +84,6 @@ angular.module('prmWebApp')
         $scope.refresh();
       });
     };
+
+    $scope.refresh();
   });
