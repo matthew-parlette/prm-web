@@ -94,6 +94,12 @@ angular.module('prmWebApp')
     };
 
     $scope.weights = [0, 1, 2, 3];
+    $scope.efforts = {};
+    $scope.efforts[0] = "Trivial";
+    $scope.efforts[1] = "Easy";
+    $scope.efforts[2] = "Normal";
+    $scope.efforts[3] = "Epic";
+
 
     $scope.refresh();
   });

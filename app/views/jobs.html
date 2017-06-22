@@ -13,6 +13,7 @@
     <th class="">Job</th>
     <th class="text-center">Status</th>
     <th class="text-center">Weight</th>
+    <th class="text-center">Effort</th>
   </tr>
   <tr ng-repeat="job in jobs">
     <td class="" editable-text="job.name" onaftersave="updateJobName(job, $data)">
@@ -22,13 +23,25 @@
       <job-status class=""></job-status>
     </td>
     <td class="text-center">
-      <div class="job-status" ng-mouseenter="showWeights=true" ng-mouseleave="showWeights=false">
+      <div class="" ng-mouseenter="showWeights=true" ng-mouseleave="showWeights=false">
         <span ng-hide="showWeights">
           {{ job.weight || 0 }}
         </span>
         <div class="" ng-show="showWeights">
           <div class="btn-group btn-group-xs" role="group" aria-label="job-weight" style="position: absolute;margin-left: -2.5em;">
             <button ng-repeat="weight in weights" type="button" class="btn btn-default" ng-click="job.weight = weight;updateJob(job);">{{ weight }}</button>
+          </div>
+        </div>
+      </div>
+    </td>
+    <td class="text-center">
+      <div class="" ng-mouseenter="showEfforts=true" ng-mouseleave="showEfforts=false">
+        <span ng-hide="showEfforts">
+          {{ job.effort || 0 }}
+        </span>
+        <div class="" ng-show="showEfforts">
+          <div class="btn-group btn-group-xs" role="group" aria-label="job-effort" style="position: absolute;margin-left: -2.5em;">
+            <button ng-repeat="(effort, name) in efforts" type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="{{ name }}" ng-click="job.effort = effort;updateJob(job);">{{ effort }}</button>
           </div>
         </div>
       </div>
