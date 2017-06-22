@@ -16,11 +16,45 @@ angular.module('prmWebApp')
     }
 
     JobStatus.query(function(data){
-      $scope.statuses = {};
+      $scope.statuses = data;
+      // Set glyphicons
+      $scope.statuses.forEach(function(status){
+        switch(status.name.toLowerCase()) {
+          case "backlog":
+            status.icon = "list-alt";
+            break;
+          case "working":
+            status.icon = "open";
+            break;
+          case "waiting":
+            status.icon = "calendar";
+            break;
+          case "delegated":
+            status.icon = "send";
+            break;
+          case "done":
+            status.icon = "ok";
+            break;
+          default:
+            status.icon = "question-sign";
+        }
+      });
+
+      // Still need status_dict for job_status view
+      $scope.status_dict = {};
       data.forEach(function(status){
-        $scope.statuses[status.id] = status.name;
+        $scope.status_dict[status.id] = status.name;
       });
     })
+
+    $scope.friendlyJobStatus = function(id){
+      $scope.statuses.forEach(function(status){
+        if(id == status.id){
+          console.log("returning " + status.name);
+          return status.name;
+        }
+      });
+    };
 
     $scope.newjob = new Job();
 
@@ -35,7 +69,16 @@ angular.module('prmWebApp')
     };
 
     $scope.updateJobName = function(job, name){
+      Job.update(job, function(success){/* success */}, function(error){
+        console.log(error);
+        $scope.refresh();
+      });
+    };
+
+    $scope.updateJobStatus = function(job, status){
+      job.status_id = status.id;
       console.log(job);
+      console.log(status);
       Job.update(job, function(success){/* success */}, function(error){
         console.log(error);
         $scope.refresh();
