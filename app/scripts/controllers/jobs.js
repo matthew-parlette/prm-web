@@ -8,15 +8,14 @@
  * Controller of the prmWebApp
  */
 angular.module('prmWebApp')
-  .controller('JobsCtrl', function ($scope, Job, JobStatus) {
+  .controller('JobsCtrl', function ($scope, Job, JobStatus, $q) {
+    $scope.jobs = Job.query(function(data){$scope.jobs = data;});
+
     $scope.refresh = function(){
-      Job.query(function(data) {
-        $scope.jobs = data;
-        console.log($scope.jobs);
-      });
+      $scope.setFocusTask();
     }
 
-    JobStatus.query(function(data){
+    $scope.statuses = JobStatus.query(function(data){
       $scope.statuses = data;
       // Set glyphicons
       $scope.statuses.forEach(function(status){
@@ -51,7 +50,6 @@ angular.module('prmWebApp')
     $scope.friendlyJobStatus = function(id){
       $scope.statuses.forEach(function(status){
         if(id == status.id){
-          console.log("returning " + status.name);
           return status.name;
         }
       });
@@ -72,14 +70,14 @@ angular.module('prmWebApp')
     };
 
     $scope.updateJob = function(job){
-      Job.update(job, function(success){/* success */}, function(error){
+      Job.update(job, function(success){$scope.refresh();}, function(error){
         console.log(error);
         $scope.refresh();
       });
     };
 
     $scope.updateJobName = function(job, name){
-      Job.update(job, function(success){/* success */}, function(error){
+      Job.update(job, function(success){$scope.refresh();}, function(error){
         console.log(error);
         $scope.refresh();
       });
@@ -87,7 +85,7 @@ angular.module('prmWebApp')
 
     $scope.updateJobStatus = function(job, status){
       job.status_id = status.id;
-      Job.update(job, function(success){/* success */}, function(error){
+      Job.update(job, function(success){$scope.refresh();}, function(error){
         console.log(error);
         $scope.refresh();
       });
@@ -100,6 +98,64 @@ angular.module('prmWebApp')
     $scope.efforts[2] = "Normal";
     $scope.efforts[3] = "Epic";
 
+    $scope.getJobStatus = function(name, callback){
+      $scope.statuses.$promise.then(function(statuses){
+        statuses.forEach(function(status){
+          if(status.name.toLowerCase() == name.toLowerCase()){
+            callback(status);
+          }
+        });
+      });
+    }
+
+    $scope.getJobsInStatus = function(name, callback){
+      $scope.jobs.$promise.then(function(jobs){
+        $scope.getJobStatus(name, function(status){
+          var jobs = [];
+          $scope.jobs.forEach(function(job){
+            if(job.status_id == status.id){
+              jobs.push(job);
+            }
+          });
+          callback(jobs);
+        });
+      });
+    };
+
+    $scope.getTopTaskFrom = function(jobs, callback){
+      var result = null;
+      jobs.forEach(function(job){
+        if(result == null){
+          result = job;
+        }else{
+          if(false){
+            // Check date
+          }else{
+            if(typeof job.weight === 'number' && typeof result.weight === 'number' && job.weight > result.weight){
+              result = job;
+            }else{
+              if(typeof job.effort === 'number' && typeof result.effort === 'number' && job.effort < result.effort){
+                result = job;
+              }else{
+                // Compare contact or organization attributes
+              }
+            }
+          }
+        }
+      });
+      callback(result);
+    };
+
+    $scope.setFocusTask = function(){
+      // Set the current task to focus on
+      // This should only come from the working status
+      // If no task is in working, then find the next task to move to working
+      $scope.getJobsInStatus("working", function(jobs){
+        $scope.getTopTaskFrom(jobs, function(job){
+          $scope.focus = job;
+        });
+      });
+    };
 
     $scope.refresh();
   });
