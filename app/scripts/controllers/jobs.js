@@ -153,6 +153,27 @@ angular.module('prmWebApp')
       $scope.getJobsInStatus("working", function(jobs){
         $scope.getTopTaskFrom(jobs, function(job){
           $scope.focus = job;
+          if($scope.focus == null){
+            $scope.getJobsInStatus("backlog", function(jobs){
+              $scope.getTopTaskFrom(jobs, function(job){
+                $scope.focus = job;
+                if($scope.focus == null){
+                  $scope.getJobsInStatus("waiting", function(jobs){
+                    $scope.getTopTaskFrom(jobs, function(job){
+                      $scope.focus = job;
+                      if($scope.focus == null){
+                        $scope.getJobsInStatus("delegated", function(jobs){
+                          $scope.getTopTaskFrom(jobs, function(job){
+                            $scope.focus = job;
+                          });
+                        });
+                      }
+                    });
+                  });
+                }
+              });
+            });
+          }
         });
       });
     };
