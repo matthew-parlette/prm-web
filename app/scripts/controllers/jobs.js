@@ -70,6 +70,8 @@ angular.module('prmWebApp')
     };
 
     $scope.updateJob = function(job){
+      job.weight = parseInt(job.weight);
+      job.effort = parseInt(job.effort);
       Job.update(job, function(success){$scope.refresh();}, function(error){
         console.log(error);
         $scope.refresh();
