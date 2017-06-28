@@ -9,10 +9,11 @@
  */
 angular.module('prmWebApp')
   .controller('JobsCtrl', function ($scope, Job, JobStatus, $q) {
-    $scope.jobs = Job.query(function(data){$scope.jobs = data;});
+    $scope.jobs = Job.query(function(data){$scope.jobs = data;console.log(data);});
 
     $scope.refresh = function(){
       $scope.setFocusTask();
+      $scope.getUnorganizedJobs();
     }
 
     $scope.statuses = JobStatus.query(function(data){
@@ -60,6 +61,8 @@ angular.module('prmWebApp')
 
     $scope.addJob = function(){
       $scope.job.status_id = 1;
+      $scope.jobs.push($scope.job);
+      $scope.refresh();
       $scope.job.$save(function() {
         //job created
         $scope.job.name = 'Add a Job';
@@ -177,6 +180,18 @@ angular.module('prmWebApp')
             });
           }
         });
+      });
+    };
+
+    $scope.getUnorganizedJobs = function(){
+      $scope.jobs.$promise.then(function(jobs){
+        var unorganized = [];
+        jobs.forEach(function(job){
+          if(job.weight == null || job.effort == null){
+            unorganized.push(job);
+          }
+        });
+        $scope.unorganized = unorganized;
       });
     };
 

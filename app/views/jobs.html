@@ -8,22 +8,30 @@
 
 <hr>
 
+<h3 class="text-center">Unorganized</h3>
+
 <table class="table">
-  <tr ng-model="focus">
-    <td class="" editable-text="focus.name" onaftersave="updatefocusName(focus, $data)">
-      {{ focus.name }}
+  <tr>
+    <th class="">Job</th>
+    <th class="text-center">Status</th>
+    <th class="text-center">Weight</th>
+    <th class="text-center">Effort</th>
+  </tr>
+  <tr ng-repeat="job in unorganized">
+    <td class="" editable-text="job.name" onaftersave="updateJobName(job, $data)">
+      {{ job.name }}
     </td>
     <td class="text-center">
-      <focus-status class=""></focus-status>
+      <job-status class=""></job-status>
     </td>
     <td class="text-center">
       <div class="" ng-mouseenter="showWeights=true" ng-mouseleave="showWeights=false">
         <span ng-hide="showWeights">
-          {{ focus.weight || 0 }}
+          {{ job.weight == null ? "-" : job.weight }}
         </span>
         <div class="" ng-show="showWeights">
           <div class="btn-group btn-group-xs" role="group" aria-label="focus-weight" style="position: absolute;margin-left: -2.5em;">
-            <button ng-repeat="weight in weights" type="button" class="btn btn-default" ng-click="focus.weight = weight;updatefocus(focus);">{{ weight }}</button>
+            <button ng-repeat="weight in weights" type="button" class="btn btn-default" ng-click="job.weight = weight;updateJob(job);">{{ weight }}</button>
           </div>
         </div>
       </div>
@@ -31,11 +39,11 @@
     <td class="text-center">
       <div class="" ng-mouseenter="showEfforts=true" ng-mouseleave="showEfforts=false">
         <span ng-hide="showEfforts">
-          {{ focus.effort || 0 }}
+          {{ job.effort == null ? "-" : job.effort }}
         </span>
         <div class="" ng-show="showEfforts">
           <div class="btn-group btn-group-xs" role="group" aria-label="focus-effort" style="position: absolute;margin-left: -2.5em;">
-            <button ng-repeat="(effort, name) in efforts" type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="{{ name }}" ng-click="focus.effort = effort;updatefocus(focus);">{{ effort }}</button>
+            <button ng-repeat="(effort, name) in efforts" type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="{{ name }}" ng-click="job.effort = effort;updateJob(job);">{{ effort }}</button>
           </div>
         </div>
       </div>
@@ -44,6 +52,53 @@
 </table>
 
 <hr>
+
+<h3 class="text-center">Focus</h3>
+
+<table class="table">
+  <tr>
+    <th class="">Job</th>
+    <th class="text-center">Status</th>
+    <th class="text-center">Weight</th>
+    <th class="text-center">Effort</th>
+  </tr>
+  <tr ng-model="focus">
+    <td class="" editable-text="focus.name" onaftersave="updateJobName(focus, $data)">
+      {{ focus.name }}
+    </td>
+    <td class="text-center">
+      <job-status class=""></job-status>
+    </td>
+    <td class="text-center">
+      <div class="" ng-mouseenter="showWeights=true" ng-mouseleave="showWeights=false">
+        <span ng-hide="showWeights">
+          {{ isNaN(focus.weight) ? "-" : focus.weight }}
+        </span>
+        <div class="" ng-show="showWeights">
+          <div class="btn-group btn-group-xs" role="group" aria-label="focus-weight" style="position: absolute;margin-left: -2.5em;">
+            <button ng-repeat="weight in weights" type="button" class="btn btn-default" ng-click="focus.weight = weight;updateJob(focus);">{{ weight }}</button>
+          </div>
+        </div>
+      </div>
+    </td>
+    <td class="text-center">
+      <div class="" ng-mouseenter="showEfforts=true" ng-mouseleave="showEfforts=false">
+        <span ng-hide="showEfforts">
+          {{ isNaN(focus.effort) ? "-" : focus.effort }}
+        </span>
+        <div class="" ng-show="showEfforts">
+          <div class="btn-group btn-group-xs" role="group" aria-label="focus-effort" style="position: absolute;margin-left: -2.5em;">
+            <button ng-repeat="(effort, name) in efforts" type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="{{ name }}" ng-click="focus.effort = effort;updateJob(focus);">{{ effort }}</button>
+          </div>
+        </div>
+      </div>
+    </td>
+  </tr>
+</table>
+
+<hr>
+
+<h3 class="text-center">All</h3>
 
 <table class="table table-hover">
   <tr>
